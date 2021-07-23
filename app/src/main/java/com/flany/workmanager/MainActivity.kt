@@ -6,9 +6,11 @@ import android.util.Log
 import android.view.View
 import androidx.work.*
 import com.flany.workmanager.utils.Constant.TAG
+import com.flany.workmanager.work.MainWorkerApp
 import com.flany.workmanager.work.MainWorkerBackground
 import com.flany.workmanager.work.MainWorkerData
 import com.flany.workmanager.work.MainWorkerMulti
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,11 +19,17 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
+    /**
+     * 模拟单任务
+     */
     fun startSleepWork(view: View) {
         WorkManager.getInstance(this)
             .enqueue(OneTimeWorkRequestBuilder<MainWorkerBackground>().build())
     }
 
+    /**
+     * 模拟数据传递
+     */
     fun startDataWork(view: View) {
         val request = OneTimeWorkRequestBuilder<MainWorkerData>().setInputData(
             Data.Builder().putString("data-in", "hello").build()
@@ -37,6 +45,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 模拟多任务
+     */
     fun startMultiWork(view: View) {
         //1.所有都是串行执行
 //        WorkManager.getInstance(this)
@@ -56,5 +67,31 @@ class MainActivity : AppCompatActivity() {
             //串行执行
             .then(OneTimeWorkRequestBuilder<MainWorkerMulti.Worker3>().build())
             .enqueue()
+    }
+
+    /**
+     * 模拟app退出后，还能执行任务，等待一段时间查看SP文件
+     */
+    fun startAppWork(view: View) {
+        WorkManager.getInstance(this)
+            .enqueue(OneTimeWorkRequestBuilder<MainWorkerApp>().build())
+    }
+
+    /**
+     * 模拟轮询任务
+     */
+    fun startRepeatWork(view: View) {
+        WorkManager.getInstance(this)
+            .enqueue(
+                PeriodicWorkRequestBuilder<MainWorkerMulti.Worker3>(
+                    10,
+                    TimeUnit.SECONDS//最小事件15分钟
+                ).setConstraints(
+                    Constraints.Builder()
+                        .setRequiredNetworkType(NetworkType.CONNECTED)
+                        .setRequiresCharging(true)
+                        .build()
+                ).build()
+            )
     }
 }

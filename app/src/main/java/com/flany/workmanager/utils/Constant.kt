@@ -8,4 +8,7 @@ package com.flany.workmanager.utils
 object Constant {
 
     const val TAG = "work-manager"
+
+    const val SP_NAME = "work-manager-sp"
+    const val SP_KEY = "sp_key"
 }

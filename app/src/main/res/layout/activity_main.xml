@@ -25,4 +25,16 @@
         android:onClick="startMultiWork"
         android:text="开启多个任务" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startAppWork"
+        android:text="开启App杀掉进程后的任务" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="startRepeatWork"
+        android:text="开启一个轮询任务" />
+
 </LinearLayout>
