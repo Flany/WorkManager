@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.flany.workmanager.utils.Constant.TAG
 import java.lang.Exception
 
 /**
@@ -11,12 +12,8 @@ import java.lang.Exception
  * @date:   2021/7/23
  * @since:
  */
-class MainWorkBackground(context: Context, workerParameters: WorkerParameters) :
+class MainWorkerBackground(context: Context, workerParameters: WorkerParameters) :
     Worker(context, workerParameters) {
-
-    companion object {
-        private const val TAG = "MainWorkBackground"
-    }
 
     override fun doWork(): Result {
         Log.i(TAG, "doWork: running...")
