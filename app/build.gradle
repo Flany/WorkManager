@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id "com.google.protobuf" version "0.8.12"
 }
 
 android {
@@ -30,6 +31,39 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+    // 设置 proto 文件位置
+    sourceSets {
+        main {
+            java {
+                // proto 文件默认路径是 src/main/proto
+                // 可以通过 srcDir 修改 proto 文件的位置
+                srcDir 'src/main/java'
+            }
+            proto {
+                // proto 文件默认路径是 src/main/proto
+                // 可以通过 srcDir 修改 proto 文件的位置
+                srcDir 'src/main/proto'
+            }
+        }
+    }
+}
+
+protobuf {
+    // 设置 protoc 的版本
+    protoc {
+        // //从仓库下载 protoc 这里的版本号需要与依赖 com.google.protobuf:protobuf-javalite:xxx 版本相同
+        artifact = 'com.google.protobuf:protoc:3.10.0'
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                java {
+                    option "lite"
+                }
+            }
+        }
+    }
+    generatedFilesBaseDir = "$projectDir/src/main"
 }
 
 dependencies {
@@ -40,7 +74,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
     implementation 'androidx.work:work-runtime-ktx:2.4.0'
+    implementation 'androidx.datastore:datastore-preferences:1.0.0-alpha01'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation "com.google.protobuf:protobuf-javalite:3.10.0"
 }

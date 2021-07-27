@@ -6,10 +6,7 @@ import android.util.Log
 import android.view.View
 import androidx.work.*
 import com.flany.workmanager.utils.Constant.TAG
-import com.flany.workmanager.work.MainWorkerApp
-import com.flany.workmanager.work.MainWorkerBackground
-import com.flany.workmanager.work.MainWorkerData
-import com.flany.workmanager.work.MainWorkerMulti
+import com.flany.workmanager.work.*
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -74,7 +71,7 @@ class MainActivity : AppCompatActivity() {
      */
     fun startAppWork(view: View) {
         WorkManager.getInstance(this)
-            .enqueue(OneTimeWorkRequestBuilder<MainWorkerApp>().build())
+            .enqueue(OneTimeWorkRequestBuilder<MainWorkerDataStore>().build())
     }
 
     /**
